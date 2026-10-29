@@ -33,7 +33,7 @@ export default async function handler(req) {
     if (k !== 'cfg' && k !== 'u') up.searchParams.append(k, v);
   }
 
-  if (ALLOWED_HOSTS.length && !ALLOWED_HOSTS.includes(up.hostname)) {
+  if (ALLOWED_HOSTS.length && !ALLOWED_HOSTS.some(h => up.hostname === h || (h.startsWith('*.') && up.hostname.endsWith(h.slice(1))))) {
     return new Response('host not allowed', { status: 403, headers: CORS });
   }
 
