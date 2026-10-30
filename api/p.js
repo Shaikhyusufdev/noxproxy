@@ -28,7 +28,9 @@ export default async function handler(req) {
   target = target.replace(/^(https?):\/+/, '$1://');
 
   // original query (token etc.) upstream ko forward karo
-  const up = new URL(target);
+  let up;
+try { up = new URL(target); }
+catch { return new Response('bad target: ' + target, { status: 400, headers: CORS }); }
   for (const [k, v] of url.searchParams) {
     if (k !== 'cfg' && k !== 'u') up.searchParams.append(k, v);
   }
