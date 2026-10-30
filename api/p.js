@@ -19,9 +19,11 @@ function b64urlDecode(s) {
 export default async function handler(req) {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
 
-  const url = new URL(req.url);
-  const cfgRaw = url.searchParams.get('cfg');
-  let target = url.searchParams.get('u');
+    const url = new URL(req.url);
+  const m = url.pathname.match(/\/p\/([^/]+)\/(.+)$/);
+  if (!m) return new Response('bad path: ' + url.pathname, { status: 400, headers: CORS });
+  const cfgRaw = m[1];
+  let target = m[2];
   if (!cfgRaw || !target) return new Response('bad request', { status: 400, headers: CORS });
 
   // "https:/host/x" -> "https://host/x" (slashes collapse ho jaate hain)
