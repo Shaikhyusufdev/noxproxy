@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/p/:cfg/(.*)", "destination": "/api/p?cfg=:cfg&u=$1" }
+    { "source": "/p/:cfg/:rest*", "destination": "/api/p?cfg=:cfg&u=:rest*" }
   ]
 }
